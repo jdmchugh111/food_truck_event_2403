@@ -27,13 +27,42 @@ class Event
     end
 
     def sorted_item_list
-        item_array = []
+        name_array = []
         @food_trucks.each do |truck|
             truck.inventory.each do |item, value|
-                item_array << item.name
+                name_array << item.name
             end
         end
-        item_array.uniq.sort
+        name_array.uniq.sort
     end
+
+    def total_inventory
+        item_array = []
+        inventory_hash = {}
+        @food_trucks.each do |truck|
+            truck.inventory.each do |item, value|
+                if !item_array.include?(item)
+                    item_array << item
+                end
+            end
+        end
+        item_array.each do |item|
+            inventory_hash[item] = create_subhash(item)
+        end
+        inventory_hash
+    end
+
+    def create_subhash(item)
+        stock = 0
+        trucks = []
+        @food_trucks.each do |truck|
+            if truck.inventory.keys.include?(item)
+                trucks << truck
+                stock += truck.inventory[item]
+            end
+        end
+        {quantity: stock, food_trucks: trucks}
+    end
+            
 
 end

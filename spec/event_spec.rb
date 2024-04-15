@@ -76,5 +76,46 @@ RSpec.describe Event do
             expect(@event.sorted_item_list).to eq(['Apple Pie (Slice)', "Banana Nice Cream", 'Peach Pie (Slice)', "Peach-Raspberry Nice Cream"])
         end
     end
+
+    describe "#create_subhash" do
+        it "can create the subhash for total_inventory" do
+            @food_truck1.stock(@item1, 30)
+            @food_truck1.stock(@item2, 30)
+            @food_truck1.stock(@item3, 30)
+            @food_truck1.stock(@item4, 30)
+            @food_truck2.stock(@item1, 50)
+            @food_truck2.stock(@item2, 50)
+            @food_truck3.stock(@item3, 65)
+            @food_truck3.stock(@item4, 65)
+            @event.add_food_truck(@food_truck1)
+            @event.add_food_truck(@food_truck2)
+            @event.add_food_truck(@food_truck3)
+
+            expect(@event.create_subhash(@item1)).to eq({quantity: 80, food_trucks: [@food_truck1, @food_truck2]})
+        end
+    end
+
+    describe "#total_inventory" do
+        it "can return hash with inventory of all items" do
+            @food_truck1.stock(@item1, 30)
+            @food_truck1.stock(@item2, 30)
+            @food_truck1.stock(@item3, 30)
+            @food_truck1.stock(@item4, 30)
+            @food_truck2.stock(@item1, 50)
+            @food_truck2.stock(@item2, 50)
+            @food_truck3.stock(@item3, 65)
+            @food_truck3.stock(@item4, 65)
+            @event.add_food_truck(@food_truck1)
+            @event.add_food_truck(@food_truck2)
+            @event.add_food_truck(@food_truck3)
+
+            expected_hash ={@item1 => {quantity: 80, food_trucks: [@food_truck1, @food_truck2]},
+                            @item2 => {quantity: 80, food_trucks: [@food_truck1, @food_truck2]},
+                            @item3 => {quantity: 95, food_trucks: [@food_truck1, @food_truck3]},
+                            @item4 => {quantity: 95, food_trucks: [@food_truck1, @food_truck3]}}
+
+            expect(@event.total_inventory).to eq(expected_hash)
+        end
+    end
             
 end
