@@ -19,4 +19,35 @@ RSpec.describe FoodTruck do
             expect(@food_truck.inventory).to eq({})
         end
     end
+
+    describe "#check_stock" do
+        it "defaults to zero" do
+            expect(@food_truck.check_stock(@item1)).to eq(0)
+        end
+
+        it "updates to reflect current stock" do
+            @food_truck.stock(@item1, 30)
+
+            expect(@food_truck.check_stock(@item1)).to eq(30)
+
+            @food_truck.stock(@item1, 25)
+
+            expect(@food_truck.check_stock(@item1)).to eq(55)
+        end
+    end
+
+    describe "#stock" do
+        it "updates inventory hash" do
+            @food_truck.stock(@item1, 30)
+
+            expect(@food_truck.inventory).to eq({@item1 => 30})
+        end
+
+        it "adds to existing stock" do
+            @food_truck.stock(@item1, 30)
+            @food_truck.stock(@item1, 25)
+
+            expect(@food_truck.check_stock(@item1)).to eq(55)
+        end
+    end
 end
