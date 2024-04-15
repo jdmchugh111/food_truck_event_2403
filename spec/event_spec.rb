@@ -36,7 +36,7 @@ RSpec.describe Event do
     end
 
     describe "#food_truck_names" do
-        it "can display all truck names" do
+        it "can return all truck names" do
             @event.add_food_truck(@food_truck1)
             @event.add_food_truck(@food_truck2)
             @event.add_food_truck(@food_truck3)
@@ -46,7 +46,7 @@ RSpec.describe Event do
     end
 
     describe "#food_trucks_that_sell" do
-        it "can display name of trucks that sell item" do
+        it "can return list of trucks that sell item" do
             @food_truck1.stock(@item1, 30)
             @food_truck3.stock(@item1, 65)
             @food_truck2.stock(@item4, 50)
@@ -59,5 +59,22 @@ RSpec.describe Event do
         end
     end
 
+    describe "#sorted_item_list" do
+        it "can return alphabetical array of items with no duplicates" do
+            @food_truck1.stock(@item1, 30)
+            @food_truck1.stock(@item2, 30)
+            @food_truck1.stock(@item3, 30)
+            @food_truck1.stock(@item4, 30)
+            @food_truck2.stock(@item1, 50)
+            @food_truck2.stock(@item2, 50)
+            @food_truck3.stock(@item3, 65)
+            @food_truck3.stock(@item4, 65)
+            @event.add_food_truck(@food_truck1)
+            @event.add_food_truck(@food_truck2)
+            @event.add_food_truck(@food_truck3)
+
+            expect(@event.sorted_item_list).to eq(['Apple Pie (Slice)', "Banana Nice Cream", 'Peach Pie (Slice)', "Peach-Raspberry Nice Cream"])
+        end
+    end
             
 end
