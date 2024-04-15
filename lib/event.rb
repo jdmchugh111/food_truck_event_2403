@@ -15,4 +15,14 @@ class Event
             truck.name
         end
     end
+
+    def food_trucks_that_sell(item)
+        trucks_that_sell = []
+        @food_trucks.each do |truck|
+            if truck.inventory[item] != nil
+                trucks_that_sell << truck
+            end
+        end
+        trucks_that_sell
+    end
 end
