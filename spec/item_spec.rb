@@ -18,7 +18,7 @@ RSpec.describe Item do
         it "has a price" do
             item1 = Item.new({name: 'Peach Pie (Slice)', price: "$3.75"})
 
-            expect(item1.price).to eq("$3.75")
+            expect(item1.price).to eq(3.75)
         end
     end
 end
