@@ -63,6 +63,15 @@ class Event
         end
         {quantity: stock, food_trucks: trucks}
     end
-            
+
+    def overstocked_items
+        overstocked_array = []
+        total_inventory.each do |item, subhash|
+            if subhash[:food_trucks].count > 1 && subhash[:quantity] > 50
+                overstocked_array << item
+            end
+        end
+        overstocked_array
+    end
 
 end
